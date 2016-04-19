@@ -31,11 +31,14 @@ namespace AnalyseGame
                            Directory.EnumerateDirectories(dirPath)
                            select dir;
 
-                foreach (var dir in dirs)
+                DirectoryInfo info = new DirectoryInfo(dirPath);
+                DirectoryInfo[] dirInfo = info.GetDirectories().OrderBy(p => p.CreationTime).ToArray();
+
+                foreach (DirectoryInfo dir in dirInfo)
                 {
-                    if(File.Exists(dir + "\\map.txt"))
+                    if (File.Exists(dir.FullName + "\\map.txt"))
                     {
-                        files.Add(dir + "\\map.txt");
+                        files.Add(dir.FullName + "\\map.txt");
                     }
                 }
 
@@ -44,7 +47,7 @@ namespace AnalyseGame
                 while(true)
                 {
                     Console.Clear();
-                    Console.WriteLine("Round: " + (index + 1) + "\n\r");
+                    Console.WriteLine("Round: " + index + "\n\r");
 
                     StreamReader reader = new StreamReader(files[index]);
                     string map = "";
