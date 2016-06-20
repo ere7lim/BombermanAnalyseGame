@@ -27,18 +27,15 @@ namespace AnalyseGame
 
                 List<string> files = new List<string> { };
 
-                var dirs = from dir in 
-                           Directory.EnumerateDirectories(dirPath)
-                           select dir;
+                var dirs = Directory.EnumerateDirectories(dirPath)
+                                    .OrderBy(dir => dir.Length)
+                                    .ToList();               
 
-                DirectoryInfo info = new DirectoryInfo(dirPath);
-                DirectoryInfo[] dirInfo = info.GetDirectories().OrderBy(p => p.CreationTime).ToArray();
-
-                foreach (DirectoryInfo dir in dirInfo)
+                foreach (var dir in dirs)
                 {
-                    if (File.Exists(dir.FullName + "\\map.txt"))
+                    if (File.Exists(dir + "\\map.txt"))
                     {
-                        files.Add(dir.FullName + "\\map.txt");
+                        files.Add(dir + "\\map.txt");
                     }
                 }
 
